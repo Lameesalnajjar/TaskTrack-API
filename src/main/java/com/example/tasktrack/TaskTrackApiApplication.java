@@ -1,5 +1,4 @@
-package com.example.TaskTrack_API;
-
+package com.example.tasktrack;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

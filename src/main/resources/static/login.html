@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In & Sign Up - TaskTrack</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            border-radius: 25px;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.06), 0 10px 10px rgba(0,0,0,0.04);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 90%;
+            min-height: 460px;
+            display: flex;
+        }
+
+        .form-container {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .sign-in-container {
+            left: 0;
+            z-index: 2;
+        }
+
+        .sign-up-container {
+            left: 0;
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .login-card.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .login-card.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 5;
+        }
+
+        h2 {
+            font-size: 26px;
+            color: #332255;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .input-field {
+            background-color: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            padding: 12px 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #8b5cf6;
+        }
+
+        .btn-action {
+            border-radius: 8px;
+            border: none;
+            background-color: #8b5cf6;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 12px 40px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-action:hover {
+            background-color: #7c3aed;
+        }
+
+        
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.5s ease-in-out;
+            z-index: 100;
+        }
+
+        .login-card.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .overlay {
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+            color: #ffffff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.5s ease-in-out;
+            display: flex;
+        }
+
+        .login-card.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+
+        .login-card.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .login-card.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+
+        .overlay-panel h3 {
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+
+        .overlay-panel p {
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1.5px solid #ffffff;
+            color: #ffffff;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 10px 30px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card" id="mainCard">
+    <!-- Sign In -->
+    <div class="form-container sign-in-container">
+        <h2>Sign In</h2>
+        <div class="subtitle">Enter your details to log in</div>
+        
+        <form id="loginForm" style="width: 100%;">
+            <div class="input-group">
+                <input type="text" id="username" class="input-field" required placeholder="Email or Username">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" class="input-field" required placeholder="Password">
+            </div>
+            <button type="submit" class="btn-action">SIGN IN</button>
+        </form>
+    </div>
+
+    <!-- Sign Up -->
+    <div class="form-container sign-up-container">
+        <h2>Create Account</h2>
+        <div class="subtitle">Fill in your details to register</div>
+        
+        <form id="signupForm" style="width: 100%;">
+            <div class="input-group">
+                <input type="text" class="input-field" required placeholder="Full Name">
+            </div>
+            <div class="input-group">
+                <input type="email" class="input-field" required placeholder="Email">
+            </div>
+            <div class="input-group">
+                <input type="password" class="input-field" required placeholder="Password">
+            </div>
+            <button type="submit" class="btn-action">SIGN UP</button>
+        </form>
+    </div>
+
+    
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h3>Welcome Back!</h3>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="btn-outline" id="signInBtn">SIGN IN</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h3>Hello, Friend!</h3>
+                <p>Register with your personal details to use all of site features</p>
+                <button class="btn-outline" id="signUpBtn">SIGN UP</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const mainCard = document.getElementById('mainCard');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const signInBtn = document.getElementById('signInBtn');
+
+    // تفعيل انتقال اللوحة لإنشاء الحساب
+    signUpBtn.addEventListener('click', () => {
+        mainCard.classList.add('right-panel-active');
+    });
+
+    // العودة لتسجيل الدخول
+    signInBtn.addEventListener('click', () => {
+        mainCard.classList.remove('right-panel-active');
+    });
+
+    // عند تسجيل الدخول ينتقل للـ Dashboard
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        window.location.href = 'dashboard.html';
+    });
+
+    // عند إنشاء حساب جديد يعود تلقائياً لتسجيل الدخول أو يدخله مباشرة
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Account created successfully! Please sign in.');
+        mainCard.classList.remove('right-panel-active');
+    });
+</script>
+
+</body>
+</html>

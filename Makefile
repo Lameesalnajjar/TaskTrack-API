@@ -1,14 +1,27 @@
+# Makefile for TaskTrack Project
+
+.PHONY: build run clean docker-build docker-up docker-down
+
+# Compile and package the application using Maven wrapper
 build:
-	docker build -t tasktrack-api .
+	./mvnw clean package
 
+# Run the Spring Boot application locally
 run:
-	docker run -d -p 8080:8080 --name tasktrack-container tasktrack-api
+	./mvnw spring-boot:run
 
-stop:
-	docker stop tasktrack-container
-	docker rm tasktrack-container
-
+# Clean target directories
 clean:
-	docker stop tasktrack-container || true
-	docker rm tasktrack-container || true
-	docker rmi tasktrack-api || true
+	./mvnw clean
+
+# Build Docker image manually
+docker-build:
+	docker build -t tasktrack-app .
+
+# Run application using Docker Compose
+docker-up:
+	docker-compose up --build
+
+# Stop and remove Docker Compose containers
+docker-down:
+	docker-compose down

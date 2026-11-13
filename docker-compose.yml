@@ -3,8 +3,9 @@ version: '3.8'
 services:
   tasktrack-app:
     build: .
-    image: tasktrack-api
-    container_name: tasktrack-container
+    container_name: tasktrack_container
     ports:
       - "8080:8080"
-    restart: unless-stopped
+    restart: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
