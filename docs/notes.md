@@ -20,3 +20,18 @@
 ## 4. Troubleshooting & Problem Solving
 - **Package Naming Mismatch**: Resolved a `404 Not Found` error on API routes by standardizing package hierarchies (`com.example.TaskTrack_API.controller`) across application components, allowing Spring Boot component scanning to correctly detect mappings inside Docker.
 - **UI Interaction & Authentication Toggle**: Fixed panel overlay sliding behavior in `login.html` to allow full interactivity and dynamic switching between Sign In and Sign Up forms.
+
+# Assignment #3: Deployment Notes & Challenges
+
+## 1. Environment & Infrastructure Choice
+Due to credit card limitations and regional restrictions preventing direct sign-up on traditional cloud VPS providers, **GitHub Codespaces** was successfully utilized as an approved, secure, and fully functional cloud-based Linux (Ubuntu) environment. It provides native support for Git, Docker, and Docker Compose without requiring payment verification methods.
+
+## 2. Deployment Workflow & Execution
+- Verified system tools and container runtime versions (`git`, `docker`, `docker compose`).
+- Built the multi-stage Docker image incorporating the Maven build process and lightweight runtime.
+- Executed `docker compose up --build -d` to launch the application container in the background.
+- Confirmed stable container execution using `docker ps`.
+
+## 3. Challenges & Solutions
+- **Challenge:** Lack of traditional credit/debit cards for standard cloud provider activation.
+- **Solution:** Leveraged GitHub Codespaces to replicate a remote VPS environment, allowing seamless containerization, execution, and documentation capture.
